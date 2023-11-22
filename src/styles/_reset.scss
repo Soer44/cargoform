@@ -1,0 +1,63 @@
+/**
+ * @title art-reset 
+ * @source https://gist.github.com/artemsites/e8b6727865d1880800990fff956a0c47
+ */
+*,
+*::before,
+*::after {
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: normal;
+}
+
+body {
+	min-height: 101vh;
+	overflow-x: hidden;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+button {
+	text-align: left;
+}
+
+button,
+[type=submit] {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	user-select: none;
+}
+
+input {
+	outline: none;
+	border: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+p {
+	hyphens: auto;
+}
+
+video {
+	background-color: transparent;
+	border-bottom: 1px solid transparent;
+	/* для предотвращения мелькания при загрузке на некоторых версиях ios */
+}

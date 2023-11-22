@@ -1,0 +1,27 @@
+.block {
+	&__button{ 
+	color: $c-white;
+	text-align: center;
+	font-family: $font-inter;
+	font-size: 1.1375rem;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+
+	display: flex;
+	width: 6.4375rem;
+	height: 2rem;
+	align-items: center;
+	justify-content: space-around;
+	flex-shrink: 0;
+	border-radius: 2.9375rem;
+	background: $c-blue;
+
+
+	&--minus,
+	&--plus {
+		cursor: pointer;
+	}
+}
+
+}

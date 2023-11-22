@@ -1,0 +1,117 @@
+@import 'variables.scss';
+
+.resultform__background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.9);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+
+	.resultform {
+		position: fixed;
+		top: 50%;
+		left: 20%;
+		transform: translate(-50%, -50%);
+		padding: 1.88rem 3.44rem 3.44rem 3.5rem;
+		margin-left: 30%;
+		display: flex;
+		flex-direction: column;
+
+		width: 29.5rem;
+		border-radius: 1.25rem;
+		background: #FFF;
+
+		h2 {
+			color: $c-blue;
+			text-align: center;
+			font-family: $font-hebrew;
+			font-size: 1.5rem;
+			font-style: normal;
+			font-weight: 800;
+			line-height: normal;
+		}
+
+		.adresaidata {
+			padding-top: 1.25rem;
+			padding-bottom: 1.88rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.62rem;
+			.otkuda, .kuda, .dataotpravki {
+				display: flex;
+					gap: 0.3125rem;
+			}
+		}
+
+		.result {
+			display: none;
+		}
+
+		.transportinf {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+			padding-top: 1.25rem;
+			padding-bottom: 1.25rem;
+			border-top: 3px solid $c-blue;
+			border-bottom: 3px solid $c-blue;
+
+			.transportid {
+				display: flex;
+				flex-direction: column;
+				gap: 0.62rem;
+
+				.transportid__title {
+					display: flex;
+					color: $c-blue;
+					font-family: $font-inter;
+					gap: 0.3125rem;
+
+					font-size: 1rem;
+					font-style: normal;
+					font-weight: 600;
+					line-height: normal;
+				}
+
+				.loaders {
+					display: flex;
+					gap: 0.3125rem;
+				}
+
+				.passengers {
+					display: flex;
+					gap: 0.3125rem;
+				}
+			}
+		}
+
+		.zakazchikinf {
+			padding-top: 1.88rem;
+			padding-bottom: 2.5rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.62rem;
+			.zakazchik__fio, .zakazchik__tel, .zakazchik__email {
+				display: flex;
+				gap: 0.3125rem;
+				font-family: $font-inter;
+			}
+		}
+
+		.checkboxtext1 {
+			text-align: center;
+		}
+
+		.sendbtn__wrapper {
+			display: flex;
+			justify-content: center;
+			padding-top: 2.5rem;
+		}
+	}
+
+}

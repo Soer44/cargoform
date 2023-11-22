@@ -1,0 +1,20 @@
+@import 'variables.scss';
+
+.wherefrom {
+
+	display: flex;
+	align-items: flex-start;
+	gap: 1.25rem;
+	align-self: stretch;
+
+		.duration__wrapper {
+			display: flex;
+			align-items: center;
+			gap: 1.25rem;
+			padding: 0rem 0rem 0rem 1.25rem;			
+		}
+		
+		.react-datepicker__input-container input {
+			caret-color: transparent;
+		  }
+}
