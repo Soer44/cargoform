@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/cargoform/static/css/main.2ac27828.css",
+    "main.js": "/cargoform/static/js/main.6e3d39cd.js",
+    "index.html": "/cargoform/index.html",
+    "static/media/checkedBox.svg": "/cargoform/static/media/checkedBox.c66a1939a287d99869025b35d59beb6c.svg",
+    "static/media/uncheckedBox.svg": "/cargoform/static/media/uncheckedBox.e45981ce09a9c43af1c9f45b3da910f7.svg",
+    "main.2ac27828.css.map": "/cargoform/static/css/main.2ac27828.css.map",
+    "main.6e3d39cd.js.map": "/cargoform/static/js/main.6e3d39cd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2ac27828.css",
+    "static/js/main.6e3d39cd.js"
+  ]
+}
