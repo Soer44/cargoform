@@ -40,7 +40,9 @@ const CheckboxField = ({ label, checked, onChange, name, error }) => (
   </div>
 );
 
-const ContactForm = ({ onContactFormChange }) => {
+
+
+const ContactForm = ({ onContactFormChange, onContactFormValidityChange }) => {
 
 	
   const [formData, setFormData] = useState({
@@ -59,30 +61,48 @@ const ContactForm = ({ onContactFormChange }) => {
     agree: '',
   });
 
-  useEffect(() => {
-    onContactFormChange(formData);
-  }, [formData, onContactFormChange]);
+
+  const validateForm = (formData) => {
+	const {
+	  lastName,
+	  firstName,
+	  phone,
+	  email,
+	  agree
+	} = formData;
+  
+	// Проверяем все остальные поля формы
+	const otherFieldsValid =
+    lastName.trim() !== '' &&
+    firstName.trim() !== '' &&
+    phone.trim() !== '' &&
+    email.trim() !== '';
+  
+	// Если все поля заполнены и чекбокс отмечен, возвращаем true, иначе false
+	return otherFieldsValid && agree;
+  };
+
+
 
 
   const handleChange = (e) => {
-
-
-    const { name, value, type, checked } = e.target;
-    let error = '';
-
-    if (name === 'lastName' || name === 'firstName') {
-      if (!validator.isAlpha(value, 'ru-RU', { ignore: ' ' })) {
-        error = 'Введите корректное имя или фамилию';
-      }
-    } else if (name === 'phone') {
-      if (!validator.isMobilePhone(value, 'ru-RU')) {
-        error = 'Введите корректный номер телефона';
-      }
-    } else if (name === 'email') {
-      if (!validator.isEmail(value)) {
-        error = 'Введите корректный email';
-      }
-    }
+	const { name, value, type, checked } = e.target;
+	let error = '';
+  
+	if (name === 'lastName' || name === 'firstName') {
+	  if (value.trim() !== '' && !validator.isAlpha(value, 'ru-RU', { ignore: ' ' })) {
+		error = 'Введите корректное имя или фамилию';
+	  }
+	} else if (name === 'phone') {
+	  if (value.trim() !== '' && !validator.isMobilePhone(value, 'ru-RU')) {
+		error = 'Введите корректный номер телефона';
+	  }
+	} else if (name === 'email') {
+	  if (value.trim() !== '' && !validator.isEmail(value)) {
+		error = 'Введите корректный email';
+	  }
+	}
+  
 
     setErrors((prevErrors) => ({
       ...prevErrors,
@@ -95,32 +115,14 @@ const ContactForm = ({ onContactFormChange }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const formIsValid = validateForm();
-    if (formIsValid) {
-      console.log('Form submitted:', formData);
-    } else {
-      console.log('Form is invalid. Please correct errors.');
-    }
-  };
-
-  const validateForm = () => {
-    let formIsValid = true;
-
-    for (const key in errors) {
-      if (errors[key]) {
-        formIsValid = false;
-        break;
-      }
-    }
-
-    return formIsValid;
-  };
+  useEffect(() => {
+    const formIsValid = validateForm(formData);
+    onContactFormValidityChange(formIsValid);
+    onContactFormChange(formData, formIsValid);
+  }, [formData, onContactFormChange, onContactFormValidityChange]);
 
   return (
-    <form onSubmit={handleSubmit} className="contact__form container-form">
+    <form className="contact__form container-form">
       <div className="wrapper">
         <span className="title">Контакты</span>
         <div className="contacts__wrapper">
@@ -133,7 +135,7 @@ const ContactForm = ({ onContactFormChange }) => {
               value={formData.lastName}
               placeholder="Укажите фамилию"
               onChange={handleChange}
-              error={errors.lastName}
+            //   error={errors.lastName}
             />
             <InputField
               label="Имя"
@@ -143,7 +145,7 @@ const ContactForm = ({ onContactFormChange }) => {
               value={formData.firstName}
               placeholder="Укажите имя"
               onChange={handleChange}
-              error={errors.firstName}
+            //   error={errors.firstName}
             />
           </div>
           <div className="column">

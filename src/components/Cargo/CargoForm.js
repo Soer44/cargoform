@@ -1,5 +1,5 @@
 // Cargoform.js
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback  } from "react";
 import DatePicker from "react-datepicker";
 import { format } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,7 +16,7 @@ const InputField = ({
   onChange,
   error,
 }) => (
-  <div className="input__wrapper hoverbox">
+	<div className={`input__wrapper hoverbox ${error ? "error" : ""}`}>
     <label htmlFor={id}>{label}:</label>
     <input
       type={type}
@@ -40,11 +40,47 @@ const CargoForm = ({ onCargoFormChange }) => {
 	duration: 1,
   });
 
+  
 
   //________передача даты________________________________
   const today = new Date();
   const [selectedDate, setSelectedDate] = useState(today);
   //_______________________________________
+
+  const [formErrors, setFormErrors] = useState({
+    startAddress: null,
+    finishAddress: null,
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const checkFormValidity = useCallback(() => {
+    const startAddressValid = formData.startAddress.trim() !== "";
+    const finishAddressValid = formData.finishAddress.trim() !== "";
+
+    setFormErrors({
+      startAddress: startAddressValid ? null : "",
+      finishAddress: finishAddressValid ? null : "",
+    });
+
+    const isFormValid = startAddressValid && finishAddressValid;
+
+    setIsFormValid((prevIsFormValid) => {
+      if (prevIsFormValid !== isFormValid) {
+        onCargoFormChange((prevData) => ({
+          ...prevData,
+          ...formData,
+        }), isFormValid);
+      }
+      return isFormValid;
+    });
+  }, [formData, onCargoFormChange]);
+
+  useEffect(() => {
+    console.log(isFormValid);
+    checkFormValidity();
+  }, [formData, checkFormValidity, isFormValid]);
+
+
 
   //_______________________ Функции +- duration_____________
   const [duration, setDuration] = useState(1); // Устанавливаем начальное значение
@@ -95,6 +131,7 @@ const CargoForm = ({ onCargoFormChange }) => {
 	setSelectedDate(date);
   };
 
+  
   return (
     <div>
       <form className="wherefrom container-form">
@@ -109,7 +146,7 @@ const CargoForm = ({ onCargoFormChange }) => {
 			value={formData.startAddress}
             placeholder="Введите адрес"
             onChange={handleChange}
-			// error={errors.startAddress}
+			error={formErrors.startAddress}
           />
 
           <div className="input__wrapper hoverbox">
@@ -151,7 +188,7 @@ const CargoForm = ({ onCargoFormChange }) => {
 			value={formData.finishAddress}
             placeholder="Введите адрес"
             onChange={handleChange}
-			// error={errors.finishAddress}
+			error={formErrors.finishAddress}
           />
         </div>
       </form>

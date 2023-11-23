@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
 import { components } from "react-select";
 import "../../styles/TransportForm.scss";
@@ -141,7 +141,7 @@ const TransportForm = ({ onTransportFormChange }) => {
         .filter((form) => form.id !== formId)
         .map((form, index) => ({ ...form, id: index + 1 }));
 
-      // Если удалили форму, которая шла последней, добавляем новую форму
+     
       if (updatedForms.length === 0) {
         return [{ id: 1, ...initialFormData }];
       }
@@ -234,6 +234,29 @@ const TransportForm = ({ onTransportFormChange }) => {
       lineHeight: "normal",
     }),
   };
+
+  const [errors, setErrors] = useState(activeForms.map(() => ''));
+
+  // Функция валидации
+  const validateForm = useCallback(() => {
+	const transportErrors = activeForms.map((form) => (
+	  form.selectedTransport ? '' : 'Выберите транспорт'
+	));
+  
+	setErrors(transportErrors);
+  
+	// Возвращаем true, если нет ошибок
+	return transportErrors.every(error => !error);
+  }, [activeForms, setErrors]);
+
+  useEffect(() => {
+    onTransportFormChange(activeForms);
+
+    // Вызываем функцию валидации при изменении форм
+    validateForm();
+  }, [activeForms, onTransportFormChange, validateForm]);
+
+
 
   return (
     <div>
@@ -343,6 +366,7 @@ const TransportForm = ({ onTransportFormChange }) => {
                       handleSelectChange(form.id, selectedOption)
                     }
                   />
+				   {errors[index] && <span className="error"></span>}
                 </div>
                 <div className="icon-container">
                   <svg

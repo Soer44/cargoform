@@ -9,6 +9,7 @@ import ContactForm from "./ContactForm";
 function SendCargo() {
   //_______________________Доставка адреса_______
   const [cargoFormValues, setCargoFormValues] = useState({});
+  const isCargoFormValid = !!cargoFormValues.startAddress && !!cargoFormValues.finishAddress;
 
   const handleCargoFormChange = (newValues) => {
     setCargoFormValues(newValues);
@@ -17,20 +18,36 @@ function SendCargo() {
 
   //_____________________Транспорт__________
   const [transportFormValues, setTransportFormValues] = useState([]);
+  const isTransportFormValid = transportFormValues.every((form) => form.selectedTransport !== null);
+
   const handleTransportFormChange = (newValues) => {
     setTransportFormValues(newValues);
   };
   //____________________________________
 
   //_____________________Контакты__________
-  const [contactFormValues, setContactFormValues] = useState({});
-  const handleContactFormChange = (newValues) => {
+  const [contactFormValues, setContactFormValues] = useState([]);
+  const [isContactFormValid, setIsContactFormValid] = useState(false);
+
+
+  const handleContactFormChange = (newValues, isValid) => {
     setContactFormValues(newValues);
+    setIsContactFormValid(isValid);
+  };
+  const handleContactFormValidityChange = (isValid) => {
+    setIsContactFormValid(isValid);
   };
   //____________________________________
+  const [isAnyFormInvalid, setIsFormValid] = useState(false);
 // Валидация форм перед отправкой_______________________________________
+useEffect(() => {
+	console.log("Contact form is valid:", isContactFormValid);
 
+	const isAnyFormInvalid = !isCargoFormValid || !isTransportFormValid || !isContactFormValid;
+	setIsFormValid(isAnyFormInvalid);
+  }, [cargoFormValues, transportFormValues, isContactFormValid, isCargoFormValid, isTransportFormValid]);
 //______________________________________________________________________
+
   //_______________________________Закрыть открыть
   const [showInputComponent, setShowInputComponent] = useState(false);
   const handleButtonClick = () => {
@@ -68,10 +85,11 @@ function SendCargo() {
 
       <CargoForm onCargoFormChange={handleCargoFormChange} />
       <TransportForm onTransportFormChange={handleTransportFormChange} />
-      <ContactForm onContactFormChange={handleContactFormChange} />
+      <ContactForm onContactFormChange={handleContactFormChange}
+	  onContactFormValidityChange={handleContactFormValidityChange} />
 
       <div className="btn">
-        <button className="sendbtn" onClick={handleButtonClick}>
+        <button className="sendbtn" onClick={handleButtonClick} disabled={isAnyFormInvalid}>
           Отправить
         </button>
         <button className="clearbtn" onClick={handleClearButtonClick}>
